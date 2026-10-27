@@ -88,11 +88,11 @@ export default function AppLayout() {
             onClick={() => setMobileOpen(false)}
             style={({ isActive }) => ({
               background: isActive
-                ? 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)'
+                ? 'linear-gradient(135deg, rgba(20, 184, 166, 0.28) 0%, rgba(16, 185, 129, 0.2) 100%)'
                 : 'transparent',
               color: isActive ? '#ffffff' : '#cbd5e1',
-              boxShadow: isActive ? '0 4px 16px rgba(79, 70, 229, 0.4)' : 'none',
-              border: isActive ? '1px solid rgba(129, 140, 248, 0.4)' : '1px solid transparent',
+              boxShadow: isActive ? '0 0 20px rgba(20, 184, 166, 0.35)' : 'none',
+              border: isActive ? '1px solid rgba(45, 212, 191, 0.45)' : '1px solid transparent',
             })}
             className="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3"
           >
@@ -105,7 +105,7 @@ export default function AppLayout() {
   );
 
   return (
-    <div className="d-flex min-vh-100 position-relative text-white" style={{ backgroundColor: '#0b0e17' }}>
+    <div className="d-flex min-vh-100 position-relative text-white" style={{ backgroundColor: '#071318' }}>
       {/* Background ambient glowing orbs */}
       <div className="ambient-glow-wrapper">
         <div className="ambient-orb-1"></div>
@@ -119,60 +119,61 @@ export default function AppLayout() {
         className="d-none d-lg-flex flex-column flex-shrink-0 border-end position-relative"
         style={{
           width: '260px',
-          background: 'rgba(17, 22, 36, 0.88)',
+          background: 'rgba(9, 23, 31, 0.92)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
-          borderColor: 'rgba(255, 255, 255, 0.1)',
+          borderColor: 'rgba(20, 184, 166, 0.2)',
           zIndex: 40,
         }}
       >
-        <div className="p-3 border-bottom d-flex align-items-center gap-3" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+        <div className="p-3 border-bottom d-flex align-items-center gap-3" style={{ borderColor: 'rgba(20, 184, 166, 0.2)' }}>
           <div
             className="rounded-3 p-2 d-flex align-items-center justify-content-center"
             style={{
               width: '38px',
               height: '38px',
-              background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
-              boxShadow: '0 4px 14px rgba(99, 102, 241, 0.45)',
+              background: 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)',
+              boxShadow: '0 0 16px rgba(20, 184, 166, 0.55)',
             }}
           >
             <i className="bi bi-people-fill fs-5 text-white"></i>
           </div>
           <div>
             <h6 className="fw-bold mb-0 text-white tracking-tight">
-              Staff<span style={{ color: '#818cf8' }}>Sync</span>
+              Staff<span style={{ color: '#2dd4bf', textShadow: '0 0 10px rgba(45,212,191,0.6)' }}>Sync</span>
             </h6>
-            <small className="text-uppercase" style={{ fontSize: '0.68rem', letterSpacing: '0.06em', color: '#94a3b8' }}>
+            <small className="text-uppercase" style={{ fontSize: '0.68rem', letterSpacing: '0.06em', color: '#5eead4' }}>
               HRM SYSTEM
             </small>
           </div>
         </div>
 
         <div className="flex-grow-1 overflow-y-auto py-3">
-          <div className="px-3 mb-2 text-uppercase fw-semibold" style={{ fontSize: '0.68rem', letterSpacing: '0.06em', color: '#64748b' }}>
+          <div className="px-3 mb-2 text-uppercase fw-semibold" style={{ fontSize: '0.68rem', letterSpacing: '0.06em', color: 'rgba(94, 234, 212, 0.6)' }}>
             Menu ({role.toUpperCase()})
           </div>
           {renderNavLinks()}
         </div>
 
-        <div className="p-3 border-top" style={{ background: 'rgba(255, 255, 255, 0.03)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
-          <div className="d-flex align-items-center gap-2 p-2 rounded-3 border" style={{ background: 'rgba(255, 255, 255, 0.05)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+        <div className="p-3 border-top" style={{ background: 'rgba(20, 184, 166, 0.03)', borderColor: 'rgba(20, 184, 166, 0.2)' }}>
+          <div className="d-flex align-items-center gap-2 p-2 rounded-3 border" style={{ background: 'rgba(10, 32, 42, 0.75)', borderColor: 'rgba(20, 184, 166, 0.25)' }}>
             <div
               className="rounded-circle d-flex align-items-center justify-content-center fw-bold"
               style={{
                 width: '36px',
                 height: '36px',
                 minWidth: '36px',
-                background: 'rgba(168, 85, 247, 0.25)',
-                color: '#d8b4fe',
-                border: '1px solid rgba(192, 132, 252, 0.4)',
+                background: 'rgba(20, 184, 166, 0.2)',
+                color: '#5eead4',
+                border: '1px solid rgba(45, 212, 191, 0.4)',
+                boxShadow: '0 0 10px rgba(20, 184, 166, 0.3)',
               }}
             >
               {getInitials(user?.name)}
             </div>
             <div className="flex-grow-1 overflow-hidden">
               <div className="fw-semibold text-truncate small text-white">{user?.name}</div>
-              <span className="badge rounded-pill py-0 px-2" style={{ fontSize: '0.68rem', backgroundColor: 'rgba(168, 85, 247, 0.2)', color: '#c084fc', border: '1px solid rgba(168, 85, 247, 0.3)' }}>
+              <span className="badge rounded-pill py-0 px-2" style={{ fontSize: '0.68rem', backgroundColor: 'rgba(20, 184, 166, 0.2)', color: '#2dd4bf', border: '1px solid rgba(20, 184, 166, 0.35)' }}>
                 {role.toUpperCase()}
               </span>
             </div>
@@ -186,35 +187,35 @@ export default function AppLayout() {
         onHide={() => setMobileOpen(false)}
         className="d-lg-none"
         style={{
-          background: 'rgba(17, 22, 36, 0.95)',
+          background: 'rgba(9, 23, 31, 0.96)',
           backdropFilter: 'blur(24px)',
           color: '#ffffff',
-          borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRight: '1px solid rgba(20, 184, 166, 0.2)',
         }}
       >
-        <Offcanvas.Header closeButton closeVariant="white" className="border-bottom" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+        <Offcanvas.Header closeButton closeVariant="white" className="border-bottom" style={{ borderColor: 'rgba(20, 184, 166, 0.2)' }}>
           <Offcanvas.Title className="d-flex align-items-center gap-2">
-            <div className="rounded-3 p-2 d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px', background: '#6366f1' }}>
+            <div className="rounded-3 p-2 d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px', background: '#14b8a6' }}>
               <i className="bi bi-people-fill fs-6 text-white"></i>
             </div>
-            <span className="fw-bold text-white">StaffSync</span>
+            <span className="fw-bold text-white">Staff<span style={{ color: '#2dd4bf' }}>Sync</span></span>
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body className="d-flex flex-column p-0">
           <div className="flex-grow-1 overflow-y-auto py-3">
-            <div className="px-3 mb-2 text-uppercase fw-semibold" style={{ fontSize: '0.68rem', color: '#64748b' }}>
+            <div className="px-3 mb-2 text-uppercase fw-semibold" style={{ fontSize: '0.68rem', color: 'rgba(94, 234, 212, 0.6)' }}>
               Menu ({role.toUpperCase()})
             </div>
             {renderNavLinks()}
           </div>
-          <div className="p-3 border-top" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+          <div className="p-3 border-top" style={{ borderColor: 'rgba(20, 184, 166, 0.2)' }}>
             <div className="d-flex align-items-center gap-2">
-              <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style={{ width: '36px', height: '36px' }}>
+              <div className="bg-teal text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style={{ width: '36px', height: '36px', background: 'rgba(20, 184, 166, 0.3)', color: '#5eead4' }}>
                 {getInitials(user?.name)}
               </div>
               <div className="flex-grow-1 overflow-hidden">
                 <div className="fw-semibold text-truncate small text-white">{user?.name}</div>
-                <div className="small text-truncate" style={{ color: '#94a3b8' }}>{user?.email}</div>
+                <div className="small text-truncate" style={{ color: '#7dd3fc' }}>{user?.email}</div>
               </div>
             </div>
           </div>
@@ -227,10 +228,10 @@ export default function AppLayout() {
         <header
           className="navbar navbar-expand border-bottom px-3 px-lg-4 py-2 sticky-top"
           style={{
-            background: 'rgba(12, 16, 26, 0.85)',
+            background: 'rgba(8, 22, 29, 0.88)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
-            borderColor: 'rgba(255, 255, 255, 0.1)',
+            borderColor: 'rgba(20, 184, 166, 0.2)',
             zIndex: 30,
           }}
         >
@@ -248,11 +249,12 @@ export default function AppLayout() {
               <div
                 className="d-none d-sm-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill"
                 style={{
-                  backgroundColor: 'rgba(168, 85, 247, 0.15)',
-                  border: '1px solid rgba(192, 132, 252, 0.3)',
-                  color: '#e9d5ff',
+                  backgroundColor: 'rgba(20, 184, 166, 0.15)',
+                  border: '1px solid rgba(45, 212, 191, 0.35)',
+                  color: '#5eead4',
                   fontSize: '0.8rem',
                   fontWeight: 600,
+                  boxShadow: '0 0 14px rgba(20, 184, 166, 0.25)',
                 }}
               >
                 <span>🏢</span>
@@ -263,15 +265,15 @@ export default function AppLayout() {
               <div className="position-relative d-none d-md-block" style={{ width: '280px' }}>
                 <i
                   className="bi bi-search position-absolute top-50 translate-middle-y"
-                  style={{ left: '14px', color: '#94a3b8', fontSize: '0.85rem' }}
+                  style={{ left: '14px', color: 'rgba(94, 234, 212, 0.6)', fontSize: '0.85rem' }}
                 ></i>
                 <input
                   type="text"
                   placeholder="Search employees, records, teams..."
                   className="form-control rounded-pill ps-5 py-1"
                   style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                    borderColor: 'rgba(255, 255, 255, 0.15)',
+                    backgroundColor: 'rgba(10, 32, 42, 0.8)',
+                    borderColor: 'rgba(20, 184, 166, 0.25)',
                     color: '#ffffff',
                     fontSize: '0.85rem',
                   }}
@@ -288,9 +290,9 @@ export default function AppLayout() {
                 style={{
                   width: '36px',
                   height: '36px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  color: '#cbd5e1',
+                  backgroundColor: 'rgba(20, 184, 166, 0.12)',
+                  border: '1px solid rgba(20, 184, 166, 0.25)',
+                  color: '#5eead4',
                 }}
                 aria-label="Notifications"
               >
@@ -302,7 +304,8 @@ export default function AppLayout() {
                     right: '4px',
                     width: '8px',
                     height: '8px',
-                    backgroundColor: '#f43f5e',
+                    backgroundColor: '#10b981',
+                    boxShadow: '0 0 8px rgba(16, 185, 129, 0.9)',
                   }}
                 ></span>
               </button>

@@ -7,23 +7,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* Smoked Obsidian Glass Brand Colors */
-  --bs-primary: #6366f1;
-  --bs-primary-rgb: 99, 102, 241;
+  /* Smoked Obsidian Glass & Ocean Neon Brand Colors */
+  --bs-primary: #14b8a6;
+  --bs-primary-rgb: 20, 184, 166;
   --bs-success: #10b981;
   --bs-success-rgb: 16, 185, 129;
   --bs-warning: #f59e0b;
   --bs-warning-rgb: 245, 158, 11;
   --bs-danger: #f43f5e;
   --bs-danger-rgb: 244, 63, 94;
-  --bs-info: #38bdf8;
-  --bs-info-rgb: 56, 189, 248;
+  --bs-info: #06b6d4;
+  --bs-info-rgb: 6, 182, 212;
 
   /* Backgrounds & Text */
-  --bs-body-bg: #0b0e17;
-  --bs-body-color: #f1f5f9;
-  --bs-secondary-color: #94a3b8;
-  --bs-border-color: rgba(255, 255, 255, 0.12);
+  --bs-body-bg: #071318;
+  --bs-body-color: #e2f1f5;
+  --bs-secondary-color: #7dd3fc;
+  --bs-border-color: rgba(20, 184, 166, 0.22);
 
   /* Border radius */
   --bs-border-radius: 0.75rem;
@@ -31,15 +31,15 @@
   --bs-border-radius-lg: 1rem;
 
   /* Sidebar */
-  --ss-sidebar-bg: rgba(17, 22, 36, 0.88);
+  --ss-sidebar-bg: rgba(9, 23, 31, 0.92);
   --ss-sidebar-text: #cbd5e1;
-  --ss-sidebar-active: #6366f1;
-  --ss-sidebar-hover: rgba(255, 255, 255, 0.07);
+  --ss-sidebar-active: #14b8a6;
+  --ss-sidebar-hover: rgba(20, 184, 166, 0.12);
   --ss-sidebar-width: 260px;
 
   /* Cards & shadows */
-  --ss-card-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  --ss-card-shadow-hover: 0 20px 40px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  --ss-card-shadow: 0 16px 36px -10px rgba(0, 15, 22, 0.5), inset 0 1px 0 rgba(20, 184, 166, 0.15);
+  --ss-card-shadow-hover: 0 20px 40px -12px rgba(0, 18, 26, 0.65), inset 0 1px 0 rgba(20, 184, 166, 0.25);
 
   /* Typography */
   --bs-font-sans-serif: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
@@ -73,7 +73,7 @@ table,
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Ambient Glowing Specular Orbs ──────────────────────────── */
+/* ── Ambient Glowing Specular Orbs (Stitch Emerald/Teal/Cyan) ─ */
 .ambient-glow-wrapper {
   position: fixed;
   inset: 0;
@@ -83,43 +83,38 @@ table,
 }
 .ambient-orb-1 {
   position: absolute;
-  top: -10rem;
-  left: -10rem;
-  width: 36rem;
-  height: 36rem;
-  background: rgba(49, 46, 129, 0.35);
+  top: -12rem;
+  left: -12rem;
+  width: 42rem;
+  height: 42rem;
+  background: rgba(20, 184, 166, 0.14);
   border-radius: 9999px;
-  filter: blur(130px);
+  filter: blur(150px);
 }
 .ambient-orb-2 {
   position: absolute;
   top: 25%;
   right: 0;
-  width: 34rem;
-  height: 34rem;
-  background: rgba(88, 28, 135, 0.25);
+  width: 40rem;
+  height: 40rem;
+  background: rgba(16, 185, 129, 0.12);
   border-radius: 9999px;
-  filter: blur(140px);
+  filter: blur(160px);
 }
 .ambient-orb-3 {
   position: absolute;
-  bottom: -5rem;
+  bottom: -6rem;
   left: 33%;
-  width: 32rem;
-  height: 32rem;
-  background: rgba(8, 51, 68, 0.3);
+  width: 38rem;
+  height: 38rem;
+  background: rgba(6, 182, 212, 0.12);
   border-radius: 9999px;
-  filter: blur(130px);
+  filter: blur(150px);
 }
 .ambient-orb-4 {
   position: absolute;
-  top: 66%;
-  right: 25%;
-  width: 24rem;
-  height: 24rem;
-  background: rgba(30, 58, 138, 0.2);
-  border-radius: 9999px;
-  filter: blur(120px);
+  inset: 0;
+  background: radial-gradient(ellipse 80% 80% at 50% -20%, rgba(6, 182, 212, 0.12), rgba(7, 19, 24, 0));
 }
 
 /* ── Smoked Glass Cards ─────────────────────────────────────── */
@@ -662,9 +657,9 @@ table,
   letter-spacing: 0.06em;
 }
 
-/* ── Form Controls (Smoked Obsidian Glass) ───────────────────── */
+/* ── Form Controls (Smoked Obsidian Glass & Teal Focus) ────────── */
 .form-label {
-  color: #e2e8f0 !important;
+  color: #c7d2fe !important;
   font-size: 0.85rem;
   font-weight: 600;
   margin-bottom: 0.35rem;
@@ -672,52 +667,59 @@ table,
 
 .form-control,
 .form-select {
-  background-color: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  background-color: rgba(10, 32, 42, 0.85) !important;
+  border: 1px solid rgba(20, 184, 166, 0.25) !important;
   color: #ffffff !important;
   border-radius: var(--bs-border-radius);
   padding: 0.6rem 0.85rem;
   font-size: 0.9rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: all 0.2s ease;
 }
 
 .form-control:focus,
 .form-select:focus {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  border-color: rgba(129, 140, 248, 0.6) !important;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
+  background-color: rgba(12, 39, 52, 0.95) !important;
+  border-color: #14b8a6 !important;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.25) !important;
   color: #ffffff !important;
 }
 
 .form-control::placeholder {
-  color: #94a3b8 !important;
-  opacity: 0.7;
+  color: rgba(204, 251, 241, 0.4) !important;
 }
 
 .form-select option {
-  background-color: #121825;
-  color: #f1f5f9;
+  background-color: #091b24;
+  color: #e2f1f5;
 }
 
-/* ── Bootstrap Card Glass Conversion ─────────────────────────── */
+/* ── Bootstrap Card Glass Conversion (Stitch Obsidian Glass) ─── */
 .card {
-  background: linear-gradient(135deg, rgba(28, 35, 51, 0.72) 0%, rgba(18, 22, 33, 0.78) 100%) !important;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-  color: #f1f5f9 !important;
+  background: linear-gradient(135deg, rgba(11, 30, 39, 0.82) 0%, rgba(9, 23, 31, 0.88) 100%) !important;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(20, 184, 166, 0.22) !important;
+  box-shadow: 0 16px 36px -10px rgba(0, 15, 22, 0.5), inset 0 1px 0 rgba(20, 184, 166, 0.15) !important;
+  color: #e2f1f5 !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  border-color: rgba(20, 184, 166, 0.4) !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 18, 26, 0.65), 0 0 24px rgba(20, 184, 166, 0.15) !important;
 }
 
 .card-header {
-  background-color: rgba(255, 255, 255, 0.04) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: rgba(20, 184, 166, 0.05) !important;
+  border-bottom: 1px solid rgba(20, 184, 166, 0.18) !important;
   color: #ffffff !important;
 }
 
 .card-footer {
-  background-color: rgba(255, 255, 255, 0.03) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: rgba(20, 184, 166, 0.03) !important;
+  border-top: 1px solid rgba(20, 184, 166, 0.15) !important;
   color: #cbd5e1 !important;
 }
 
@@ -728,6 +730,38 @@ table,
 .card.bg-white,
 .card-header.bg-white {
   background-color: transparent !important;
+}
+
+/* ── Primary Neon Gradient Button ────────────────────────────── */
+.btn-primary {
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 50%, #059669 100%) !important;
+  border: 1px solid rgba(45, 212, 191, 0.45) !important;
+  box-shadow: 0 0 24px rgba(20, 184, 166, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 50%, #10b981 100%) !important;
+  border-color: rgba(94, 234, 212, 0.7) !important;
+  box-shadow: 0 0 30px rgba(20, 184, 166, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+.btn-outline-secondary,
+.btn-outline-teal {
+  background-color: rgba(20, 184, 166, 0.12) !important;
+  border: 1px solid rgba(20, 184, 166, 0.35) !important;
+  color: #5eead4 !important;
+  backdrop-filter: blur(8px);
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-teal:hover {
+  background-color: rgba(20, 184, 166, 0.25) !important;
+  border-color: rgba(45, 212, 191, 0.6) !important;
+  color: #ffffff !important;
 }
 
 /* ── Responsive ─────────────────────────────────────────────── */
