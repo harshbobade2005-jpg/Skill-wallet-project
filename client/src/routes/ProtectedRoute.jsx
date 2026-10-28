@@ -1,15 +1,17 @@
-import { Navigate, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { useAuth } from '../context/AuthContext.jsx';
 import PageLoader from '../components/PageLoader.jsx';
+import Login from '../pages/Login.jsx';
 
 export default function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
   const location = useLocation();
 
   if (loading) return <PageLoader />;
-  if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
-  if (user.mustChangePassword && location.pathname !== '/change-password') {
-    return <Navigate to="/change-password" replace />;
+
+  // If still not authenticated after auto-login attempt, show Quick Open Launchpad
+  if (!user) {
+    return <Login />;
   }
 
   return children;

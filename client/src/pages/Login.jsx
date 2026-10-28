@@ -1,220 +1,223 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useToast } from '../context/ToastContext.jsx';
-import FormField from '../components/FormField.jsx';
 import Spinner from 'react-bootstrap/Spinner';
 
 export default function Login() {
-  const { user, login } = useAuth();
+  const { quickSwitch } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
-  const location = useLocation();
+  const [loadingRole, setLoadingRole] = useState(null);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-
-  const from = location.state?.from?.pathname || '/';
-
-  // If user is already authenticated, redirect straight to their role dashboard
-  useEffect(() => {
-    if (user) {
-      const rolePath = user.role === 'hr' ? '/hr' : user.role === 'manager' ? '/manager' : '/employee';
-      navigate(rolePath, { replace: true });
-    }
-  }, [user, navigate]);
-
-  const executeLogin = async (loginEmail, loginPassword) => {
-    if (!loginEmail || !loginPassword) {
-      setError('Please enter both email and password.');
-      return;
-    }
-
-    setError('');
-    setSubmitting(true);
-
+  const handleQuickOpen = async (roleKey, targetPath) => {
+    setLoadingRole(roleKey);
     try {
-      const loggedUser = await login(loginEmail, loginPassword);
-      showToast(`Welcome back, ${loggedUser.name}!`, 'success');
-
-      if (loggedUser.mustChangePassword) {
-        navigate('/change-password', { replace: true });
-        return;
-      }
-
-      // If redirected from a specific protected page, go there, else go to role dashboard
-      if (from !== '/' && from !== '/login') {
-        navigate(from, { replace: true });
+      const loggedUser = await quickSwitch(roleKey);
+      if (loggedUser) {
+        showToast(`Welcome! Opened as ${loggedUser.name} (${loggedUser.role.toUpperCase()})`, 'success');
+        navigate(targetPath || (roleKey === 'hr' ? '/hr' : roleKey === 'manager' ? '/manager' : '/employee'));
       } else {
-        const rolePath = loggedUser.role === 'hr' ? '/hr' : loggedUser.role === 'manager' ? '/manager' : '/employee';
-        navigate(rolePath, { replace: true });
+        // Fallback navigate directly
+        navigate(targetPath || '/hr');
       }
     } catch (err) {
-      const msg =
-        err.response?.data?.message ||
-        (typeof err.response?.data === 'string' ? err.response?.data : null) ||
-        'Invalid email or password';
-      setError(msg);
+      navigate(targetPath || '/hr');
     } finally {
-      setSubmitting(false);
+      setLoadingRole(null);
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await executeLogin(email, password);
-  };
+  const ROLES = [
+    {
+      key: 'hr',
+      title: 'HR Administration',
+      roleBadge: 'Full Access',
+      badgeColor: 'rgba(16, 185, 129, 0.2)',
+      badgeTextColor: '#34d399',
+      borderColor: 'rgba(16, 185, 129, 0.4)',
+      icon: 'bi-shield-check',
+      iconBg: 'rgba(16, 185, 129, 0.15)',
+      iconColor: '#34d399',
+      desc: 'Workforce roster, employee onboarding, leave settings & company attendance',
+      target: '/hr',
+      btnLabel: 'Launch HR Portal',
+      btnGradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+    },
+    {
+      key: 'manager',
+      title: 'People Manager',
+      roleBadge: 'Team Lead',
+      badgeColor: 'rgba(6, 182, 212, 0.2)',
+      badgeTextColor: '#38bdf8',
+      borderColor: 'rgba(6, 182, 212, 0.4)',
+      icon: 'bi-people-fill',
+      iconBg: 'rgba(6, 182, 212, 0.15)',
+      iconColor: '#38bdf8',
+      desc: 'Direct reports overview, shift attendance, leave approvals & team training',
+      target: '/manager',
+      btnLabel: 'Launch Manager Portal',
+      btnGradient: 'linear-gradient(135deg, #06b6d4 0%, #0284c7 100%)',
+    },
+    {
+      key: 'employee',
+      title: 'Employee Self-Service',
+      roleBadge: 'Staff Member',
+      badgeColor: 'rgba(20, 184, 166, 0.2)',
+      badgeTextColor: '#5eead4',
+      borderColor: 'rgba(20, 184, 166, 0.4)',
+      icon: 'bi-person-badge',
+      iconBg: 'rgba(20, 184, 166, 0.15)',
+      iconColor: '#2dd4bf',
+      desc: 'One-click check-in clock, leave requests, company announcements & training feed',
+      target: '/employee',
+      btnLabel: 'Launch Employee Portal',
+      btnGradient: 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)',
+    },
+  ];
 
-  const handleQuickLogin = async (demoEmail, demoPassword) => {
-    setEmail(demoEmail);
-    setPassword(demoPassword);
-    await executeLogin(demoEmail, demoPassword);
-  };
+  const QUICK_PAGES = [
+    { label: 'Employee Matrix', path: '/employees', role: 'hr', icon: 'bi-people' },
+    { label: 'Departments', path: '/departments', role: 'hr', icon: 'bi-building' },
+    { label: 'Attendance Board', path: '/attendance', role: 'hr', icon: 'bi-clock-history' },
+    { label: 'Leave Calendar', path: '/leaves/calendar', role: 'hr', icon: 'bi-calendar-range' },
+    { label: 'Training Programs', path: '/trainings', role: 'hr', icon: 'bi-mortarboard' },
+    { label: 'Announcements', path: '/announcements', role: 'hr', icon: 'bi-megaphone' },
+  ];
 
   return (
     <div>
-      <div className="mb-4">
-        <h3 className="fw-bold text-white mb-1" style={{ fontFamily: 'Plus Jakarta Sans', letterSpacing: '-0.015em' }}>Sign In</h3>
-        <p className="text-slate-400 small mb-0">Enter your credentials to access the console</p>
+      <div className="text-center mb-4">
+        <span
+          className="badge rounded-pill px-3 py-1 mb-2 text-uppercase fw-bold"
+          style={{
+            backgroundColor: 'rgba(20, 184, 166, 0.15)',
+            color: '#5eead4',
+            border: '1px solid rgba(45, 212, 191, 0.35)',
+            fontSize: '0.72rem',
+            letterSpacing: '0.08em',
+          }}
+        >
+          Instant Open Mode Active
+        </span>
+        <h3 className="fw-bold text-white mb-1" style={{ fontFamily: 'Plus Jakarta Sans', letterSpacing: '-0.02em' }}>
+          Quick Open Launchpad
+        </h3>
+        <p className="small mb-0" style={{ color: 'rgba(226, 241, 245, 0.7)' }}>
+          Authentication is removed. Click any role or page to open it instantly:
+        </p>
       </div>
 
-      {error && (
-        <div
-          className="alert alert-danger d-flex align-items-center gap-2 py-2.5 px-3 small rounded-3 mb-3 border-0"
-          role="alert"
-          style={{ background: 'rgba(239, 68, 68, 0.2)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.35)' }}
-        >
-          <i className="bi bi-exclamation-circle-fill flex-shrink-0"></i>
-          <div>{error}</div>
-        </div>
-      )}
+      {/* Role Cards Grid */}
+      <div className="d-flex flex-column gap-3 mb-4">
+        {ROLES.map((r) => (
+          <div
+            key={r.key}
+            className="p-3 rounded-4 border d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 transition-all cursor-pointer"
+            style={{
+              backgroundColor: 'rgba(10, 32, 42, 0.75)',
+              borderColor: r.borderColor,
+              backdropFilter: 'blur(16px)',
+              boxShadow: '0 8px 24px rgba(0, 15, 22, 0.4)',
+            }}
+            onClick={() => handleQuickOpen(r.key, r.target)}
+          >
+            <div className="d-flex align-items-center gap-3">
+              <div
+                className="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                style={{
+                  width: '44px',
+                  height: '44px',
+                  background: r.iconBg,
+                  color: r.iconColor,
+                  border: `1px solid ${r.borderColor}`,
+                  boxShadow: `0 0 14px ${r.iconBg}`,
+                }}
+              >
+                <i className={`bi ${r.icon} fs-5`}></i>
+              </div>
+              <div>
+                <div className="d-flex align-items-center gap-2">
+                  <h6 className="fw-bold text-white mb-0">{r.title}</h6>
+                  <span
+                    className="badge rounded-pill px-2 py-0.5 text-uppercase"
+                    style={{
+                      backgroundColor: r.badgeColor,
+                      color: r.badgeTextColor,
+                      fontSize: '0.65rem',
+                      fontWeight: 600,
+                      border: `1px solid ${r.borderColor}`,
+                    }}
+                  >
+                    {r.roleBadge}
+                  </span>
+                </div>
+                <small className="d-block mt-0.5" style={{ color: 'rgba(226, 241, 245, 0.65)', fontSize: '0.8rem' }}>
+                  {r.desc}
+                </small>
+              </div>
+            </div>
 
-      <form onSubmit={handleSubmit} noValidate>
-        <FormField label="Email Address" required id="login-email">
-          <div className="input-group">
-            <span
-              className="input-group-text border-end-0 text-slate-400"
-              style={{ background: 'rgba(255, 255, 255, 0.06)', borderColor: 'rgba(255, 255, 255, 0.15)' }}
-            >
-              <i className="bi bi-envelope"></i>
-            </span>
-            <input
-              type="email"
-              id="email"
-              className="form-control border-start-0 text-white"
-              style={{
-                background: 'rgba(255, 255, 255, 0.06)',
-                borderColor: 'rgba(255, 255, 255, 0.15)',
-                color: '#ffffff',
-              }}
-              placeholder="name@company.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={submitting}
-              autoComplete="email"
-              required
-            />
-          </div>
-        </FormField>
-
-        <FormField label="Password" required id="login-password">
-          <div className="input-group">
-            <span
-              className="input-group-text border-end-0 text-slate-400"
-              style={{ background: 'rgba(255, 255, 255, 0.06)', borderColor: 'rgba(255, 255, 255, 0.15)' }}
-            >
-              <i className="bi bi-lock"></i>
-            </span>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              id="password"
-              className="form-control border-start-0 border-end-0 text-white"
-              style={{
-                background: 'rgba(255, 255, 255, 0.06)',
-                borderColor: 'rgba(255, 255, 255, 0.15)',
-                color: '#ffffff',
-              }}
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={submitting}
-              autoComplete="current-password"
-              required
-            />
             <button
-              type="button"
-              className="btn border-start-0 text-slate-400"
-              style={{ background: 'rgba(255, 255, 255, 0.06)', borderColor: 'rgba(255, 255, 255, 0.15)' }}
-              onClick={() => setShowPassword(!showPassword)}
-              aria-label="Toggle password visibility"
-              tabIndex={-1}
+              className="btn btn-sm px-3 py-2 rounded-3 text-white fw-semibold d-inline-flex align-items-center gap-2 flex-shrink-0 align-self-stretch align-self-sm-auto justify-content-center"
+              style={{
+                background: r.btnGradient,
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                boxShadow: `0 0 14px ${r.iconBg}`,
+                fontSize: '0.85rem',
+              }}
+              disabled={loadingRole === r.key}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleQuickOpen(r.key, r.target);
+              }}
             >
-              <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+              {loadingRole === r.key ? (
+                <>
+                  <Spinner size="sm" animation="border" />
+                  <span>Opening...</span>
+                </>
+              ) : (
+                <>
+                  <span>{r.btnLabel}</span>
+                  <i className="bi bi-arrow-right"></i>
+                </>
+              )}
             </button>
           </div>
-        </FormField>
+        ))}
+      </div>
 
-        <button
-          type="submit"
-          id="btn-login"
-          className="btn btn-primary w-100 py-2.5 fw-semibold mt-3 rounded-pill text-white shadow"
-          disabled={submitting}
-        >
-          {submitting ? (
-            <>
-              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
-              Authenticating...
-            </>
-          ) : (
-            'Sign In to Console'
-          )}
-        </button>
-      </form>
-
-      {/* 1-Click Quick Demo Login */}
-      <div className="mt-4 pt-3 border-top border-white-15">
+      {/* Direct Page Jump Section */}
+      <div className="pt-3 border-top" style={{ borderColor: 'rgba(20, 184, 166, 0.2)' }}>
         <div className="d-flex align-items-center justify-content-between mb-2">
-          <span className="text-slate-400 font-overline">
-            ⚡ 1-CLICK INSTANT DEMO LOGIN:
+          <span className="text-uppercase fw-bold" style={{ fontSize: '0.7rem', letterSpacing: '0.06em', color: '#5eead4' }}>
+            Direct Page Jump
           </span>
-          <span
-            className="badge rounded-pill text-indigo-300 font-monospace"
-            style={{ background: 'rgba(99, 102, 241, 0.15)', border: '1px solid rgba(99, 102, 241, 0.3)', fontSize: '0.7rem' }}
-          >
-            Passw0rd!23
+          <span className="small" style={{ color: 'rgba(226, 241, 245, 0.5)', fontSize: '0.75rem' }}>
+            Click to navigate directly
           </span>
         </div>
-        <div className="d-flex flex-wrap gap-2">
-          <button
-            type="button"
-            className="btn btn-ghost-smoked btn-sm py-2 px-2.5 rounded-3 fw-medium flex-fill d-flex align-items-center justify-content-center gap-1.5 text-white"
-            style={{ fontSize: '0.8rem' }}
-            disabled={submitting}
-            onClick={() => handleQuickLogin('hr@staffsync.test', 'Passw0rd!23')}
-          >
-            <i className="bi bi-shield-check text-indigo-400"></i> HR Admin
-          </button>
-          <button
-            type="button"
-            className="btn btn-ghost-smoked btn-sm py-2 px-2.5 rounded-3 fw-medium flex-fill d-flex align-items-center justify-content-center gap-1.5 text-white"
-            style={{ fontSize: '0.8rem' }}
-            disabled={submitting}
-            onClick={() => handleQuickLogin('manager@staffsync.test', 'Passw0rd!23')}
-          >
-            <i className="bi bi-briefcase text-info"></i> Manager
-          </button>
-          <button
-            type="button"
-            className="btn btn-ghost-smoked btn-sm py-2 px-2.5 rounded-3 fw-medium flex-fill d-flex align-items-center justify-content-center gap-1.5 text-white"
-            style={{ fontSize: '0.8rem' }}
-            disabled={submitting}
-            onClick={() => handleQuickLogin('employee1@staffsync.test', 'Passw0rd!23')}
-          >
-            <i className="bi bi-person text-slate-300"></i> Employee
-          </button>
+
+        <div className="row g-2">
+          {QUICK_PAGES.map((qp) => (
+            <div key={qp.path} className="col-6 col-sm-4">
+              <button
+                type="button"
+                className="btn w-100 text-start p-2 rounded-3 d-flex align-items-center gap-2 border"
+                style={{
+                  backgroundColor: 'rgba(10, 32, 42, 0.6)',
+                  borderColor: 'rgba(20, 184, 166, 0.25)',
+                  color: '#e2f1f5',
+                  fontSize: '0.8rem',
+                }}
+                onClick={() => handleQuickOpen(qp.role, qp.path)}
+              >
+                <i className={`bi ${qp.icon} text-teal`} style={{ color: '#2dd4bf' }}></i>
+                <span className="text-truncate fw-medium">{qp.label}</span>
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </div>

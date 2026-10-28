@@ -51,7 +51,7 @@ const ROLE_COLORS = {
 };
 
 export default function AppLayout() {
-  const { user, logout } = useAuth();
+  const { user, logout, quickSwitch } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -282,7 +282,57 @@ export default function AppLayout() {
             </div>
 
             {/* Right side items */}
-            <div className="d-flex align-items-center gap-3">
+            <div className="d-flex align-items-center gap-2 gap-sm-3">
+              {/* Quick Persona Switcher */}
+              <div
+                className="d-none d-sm-flex align-items-center rounded-pill p-1 border"
+                style={{
+                  backgroundColor: 'rgba(10, 32, 42, 0.85)',
+                  borderColor: 'rgba(20, 184, 166, 0.3)',
+                  boxShadow: '0 0 12px rgba(20, 184, 166, 0.15)',
+                }}
+              >
+                <button
+                  type="button"
+                  className="btn btn-sm rounded-pill px-2 py-0.5 fw-semibold border-0"
+                  style={{
+                    fontSize: '0.72rem',
+                    background: role === 'hr' ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 'transparent',
+                    color: role === 'hr' ? '#ffffff' : '#5eead4',
+                    boxShadow: role === 'hr' ? '0 0 8px rgba(16, 185, 129, 0.4)' : 'none',
+                  }}
+                  onClick={() => quickSwitch('hr')}
+                >
+                  HR Admin
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-sm rounded-pill px-2 py-0.5 fw-semibold border-0"
+                  style={{
+                    fontSize: '0.72rem',
+                    background: role === 'manager' ? 'linear-gradient(135deg, #06b6d4 0%, #0284c7 100%)' : 'transparent',
+                    color: role === 'manager' ? '#ffffff' : '#5eead4',
+                    boxShadow: role === 'manager' ? '0 0 8px rgba(6, 182, 212, 0.4)' : 'none',
+                  }}
+                  onClick={() => quickSwitch('manager')}
+                >
+                  Manager
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-sm rounded-pill px-2 py-0.5 fw-semibold border-0"
+                  style={{
+                    fontSize: '0.72rem',
+                    background: role === 'employee' ? 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)' : 'transparent',
+                    color: role === 'employee' ? '#ffffff' : '#5eead4',
+                    boxShadow: role === 'employee' ? '0 0 8px rgba(20, 184, 166, 0.4)' : 'none',
+                  }}
+                  onClick={() => quickSwitch('employee')}
+                >
+                  Employee
+                </button>
+              </div>
+
               {/* Notification button */}
               <button
                 type="button"
